@@ -36,7 +36,18 @@ class Excel {
         const getRes = await getFile(reader, upStream)
 
         //可能存在多个sheet的情况
-        const datas = []
+        const result = {
+            a: [],
+            b: [],
+            c: [],
+            d: [],
+            e: [],
+            f: [],
+            g: [],
+            h: [],
+            i: [],
+            j: [],
+        }
         if (!getRes) {
             //没有问题
             const workbook = xlsx.readFile(filePath)
@@ -48,11 +59,24 @@ class Excel {
                     header,
                     skipHeader: true,
                 })
-                datas.push(data.slice(1))
+                data.forEach((item, index) => {
+                    if (index > 0 && index < data.length - 1) {
+                        result.a.push(item.a)
+                        result.b.push(item.b)
+                        result.c.push(item.c)
+                        result.d.push(item.d)
+                        result.e.push(item.e)
+                        result.f.push(item.f)
+                        result.g.push(item.g)
+                        result.h.push(item.h)
+                        result.i.push(item.i)
+                        result.j.push(item.j)
+                    }
+                })
             }
             return {
                 status: true,
-                datas,
+                result,
             }
         } else {
             return {
