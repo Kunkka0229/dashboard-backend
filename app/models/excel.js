@@ -28,7 +28,7 @@ class Excel {
         const reader = fs.createReadStream(file.path)
         // 获取上传文件扩展名
         const ext = file.name.split('.').pop()
-        const filePath = `${downPath}/${Math.random().toString()}.${ext}`
+        const filePath = `${downPath}/${file.name}${moment().format('YYYY-MM-DD ss:HH:mm')}.${ext}`
 
         // 创建可写流
         const upStream = fs.createWriteStream(filePath)
@@ -48,6 +48,7 @@ class Excel {
             i: [],
             j: [],
         }
+        let total = {}
         if (!getRes) {
             //没有问题
             const workbook = xlsx.readFile(filePath)
@@ -59,8 +60,9 @@ class Excel {
                     header,
                     skipHeader: true,
                 })
+                total = data.pop()
                 data.forEach((item, index) => {
-                    if (index > 0 && index < data.length - 1) {
+                    if (index > 0) {
                         result.a.push(item.a)
                         result.b.push(item.b)
                         result.c.push(item.c)
@@ -76,7 +78,11 @@ class Excel {
             }
             return {
                 status: true,
-                result,
+                response: {
+                    list: result,
+                    total,
+                    showDashboard: true,
+                },
             }
         } else {
             return {

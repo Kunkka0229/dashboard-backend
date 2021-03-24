@@ -1,11 +1,17 @@
 const Koa = require('koa')
 const path = require('path')
+const koaStatic = require('koa-static')
 const parser = require('koa-bodyparser')
 const koaBody = require('koa-body')
 const InitManager = require('./core/init')
 const catchError = require('./middlewares/exception')
 
+const staticPath = './static'
+
 const app = new Koa()
+
+// 配置静态web服务的中间件
+app.use(koaStatic(path.join(__dirname, staticPath)))
 
 // post
 app.use(parser())
