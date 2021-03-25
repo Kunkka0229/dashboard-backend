@@ -10,6 +10,12 @@ const staticPath = './static'
 
 const app = new Koa()
 
+// 处理跨域
+app.use(async (ctx, next) => {
+    ctx.set('Access-Control-Allow-Origin', '*')
+    await next()
+})
+
 // 配置静态web服务的中间件
 app.use(koaStatic(path.join(__dirname, staticPath)))
 
